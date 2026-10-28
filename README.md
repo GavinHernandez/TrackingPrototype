@@ -3,7 +3,6 @@
 ## Quickstart Guide for Teammates
 
 ### 1. Clone the repo
-```bash
 git clone [https://github.com/GavinHernandez/TrackingPrototype.git](https://github.com/GavinHernandez/TrackingPrototype.git)
 cd TrackingPrototype
 
