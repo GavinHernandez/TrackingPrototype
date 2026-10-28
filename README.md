@@ -16,7 +16,7 @@ venv\Scripts\activate
 source venv/bin/activate
 
 ### 3. Install Dependencies
-python Prototype/trackingPrototype.py
+pip install -r Prototype/requirements.txt
 
 ### 4. Run the Code
 python Prototype/trackingPrototype.py
