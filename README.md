@@ -1,4 +1,4 @@
-### TrackingPrototype
+# TrackingPrototype
 
 ## Quickstart Guide for Teammates
 
