@@ -9,10 +9,10 @@ cd TrackingPrototype
 ### 2. Set up Environment
 python -m venv venv
 
-# On Windows:
+#### On Windows:
 venv\Scripts\activate
 
-# On Mac/Linux:
+#### On Mac/Linux:
 source venv/bin/activate
 
 ### 3. Install Dependencies
