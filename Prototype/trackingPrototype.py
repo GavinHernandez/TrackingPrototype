@@ -203,15 +203,13 @@ class UnifiedPrototypePipeline:
         
         small_gray = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
         fg_mask = self.bg_subtractor.apply(small_frame)
-        _, non_white_mask = cv2.threshold(small_gray, 240, 255, cv2.THRESH_BINARY_INV)
 
         if self.prev_small_gray is not None:
             frame_diff = cv2.absdiff(small_gray, self.prev_small_gray)
-            _, diff_mask = cv2.threshold(frame_diff, 12, 255, cv2.THRESH_BINARY)
+            _, diff_mask = cv2.threshold(frame_diff, 15, 255, cv2.THRESH_BINARY)
             combined_mask = cv2.bitwise_or(fg_mask, diff_mask)
-            combined_mask = cv2.bitwise_or(combined_mask, non_white_mask)
         else:
-            combined_mask = cv2.bitwise_or(fg_mask, non_white_mask)
+            combined_mask = fg_mask
         self.prev_small_gray = small_gray
 
         closed_mask = cv2.morphologyEx(combined_mask, cv2.MORPH_CLOSE, self.morph_kernel)
@@ -334,7 +332,7 @@ class UnifiedPrototypePipeline:
 
 # 60 FPS VIDEO LOOP & TELEMETRY LOGGER
 def main():
-    input_video_path = r"C:\Users\ipos\Fake_Frames\10 yards_12 in_10 mph_1 ms_CROP_1066x1066_20261026_043926_188\Scene_Uncompressed.avi"
+    input_video_path = r"C:\Users\ipos\Fake_Frames\10 yards_1 in_30 mph_1 ms_CROP_1066x1066_20261028_175146_507\Scene_Uncompressed.avi"
     output_video_path = "tracked_output_60fps.mp4"
     output_csv_path = "tracker_results_60fps.csv"
 
