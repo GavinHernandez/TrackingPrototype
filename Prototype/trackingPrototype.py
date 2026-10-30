@@ -332,7 +332,7 @@ class UnifiedPrototypePipeline:
 
 # 60 FPS VIDEO LOOP & TELEMETRY LOGGER
 def main():
-    input_video_path = r"C:\Users\ipos\Fake_Frames\10 yards_1 in_30 mph_1 ms_CROP_1066x1066_20261028_175146_507\Scene_Uncompressed.avi"
+    input_video_path = r"C:\Users\ipos\Fake_Frames\10 yards_10 in_10 mph_1 ms_CROP_1066x1066_20261029_185017_672\Scene_Uncompressed.avi"
     output_video_path = "tracked_output_60fps.mp4"
     output_csv_path = "tracker_results_60fps.csv"
 
