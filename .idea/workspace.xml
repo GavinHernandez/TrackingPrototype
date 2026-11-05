@@ -5,6 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a29d210-873d-4b0f-889c-f0c11130fd8d" name="Changes" comment="Created branch timothy_testing">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Prototype/trackerCamera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TrackingPrototype.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Prototype/tracked_output_60fps.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/Prototype/tracked_output_60fps.mp4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Prototype/tracker_results_60fps.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Prototype/tracker_results_60fps.csv" afterDir="false" />
     </list>
@@ -189,23 +197,7 @@
       <option name="project" value="LOCAL" />
       <updated>1793918963027</updated>
     </task>
-    <task id="LOCAL-00004" summary="Created branch timothy_testing">
-      <option name="closed" value="true" />
-      <created>1793920061511</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1793920061511</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Created branch timothy_testing">
-      <option name="closed" value="true" />
-      <created>1793920101927</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1793920101927</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,7 +231,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="``" />
-    <MESSAGE value="Created branch timothy_testing" />
+    <MESSAGE value="Created branch timothy_testing v0.0" />
     <MESSAGE value="Created branch timothy_testing" />
     <option name="LAST_COMMIT_MESSAGE" value="Created branch timothy_testing" />
   </component>
