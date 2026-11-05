@@ -7,7 +7,7 @@ from scipy.spatial import distance
 from scipy.optimize import linear_sum_assignment
 
 # 60 FPS SIMULATION CONSTANTS
-USE_YOLO = False
+USE_YOLO = True
 SIM_FPS = 60.0                        # hardware control loop rate (60 Hz)
 FRAME_BUDGET_MS = 1000.0 / SIM_FPS    # 16.67 ms maximum allowed latency per frame
 LOOKAHEAD_FRAMES = 30                 # 30 frames = 0.50 seconds of predicted path at 60 FPS
@@ -330,28 +330,34 @@ class UnifiedPrototypePipeline:
         self.tracks = [t for t in self.tracks if t.skipped_frames <= self.max_skipped_frames]
 
 
-# 60 FPS VIDEO LOOP & TELEMETRY LOGGER
-def main():
-    input_video_path = r"C:\Users\ipos\Fake_Frames\10 yards_10 in_10 mph_1 ms_CROP_1066x1066_20261029_185017_672\Scene_Uncompressed.avi"
+# VIDEO LOOP & TELEMETRY LOGGER
+def main(camera=None, file_path=None):
+    if camera is not None:
+        width, height = camera.width, camera.height
+        cap = camera.cam
+    elif camera is None and file_path is not None:
+        # input_video_path = r"C:\Users\ipos\
+        # Fake_Frames\10 yards_10 in_10 mph_1 ms_CROP_1066x1066_20261029_185017_672\Scene_Uncompressed.avi"
+        input_video_path = file_path
+        if not os.path.exists(input_video_path):
+            print(f"ERROR: Could not find video file at:\n{file_path}")
+            return
+        print(f"Opening practice video at locked {SIM_FPS:.0f} FPS simulation rate:\n{file_path}")
+        cap = cv2.VideoCapture(file_path)
+        if not cap.isOpened():
+            print("ERROR: OpenCV could not open the .avi file.")
+            return
+
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    else:
+        raise RuntimeError("No camera provided.")
+
     output_video_path = "tracked_output_60fps.mp4"
     output_csv_path = "tracker_results_60fps.csv"
 
-    if not os.path.exists(input_video_path):
-        print(f"ERROR: Could not find video file at:\n{input_video_path}")
-        return
-
-    print(f"Opening practice video at locked {SIM_FPS:.0f} FPS simulation rate:\n{input_video_path}")
-    cap = cv2.VideoCapture(input_video_path)
-
-    if not cap.isOpened():
-        print("ERROR: OpenCV could not open the .avi file.")
-        return
-
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
     # Force output video encoding to exact 60.0 FPS
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+    fourcc = cv2.VideoWriter.fourcc(*"mp4v")
     out_video = cv2.VideoWriter(output_video_path, fourcc, SIM_FPS, (width, height))
 
     pipeline = UnifiedPrototypePipeline()
@@ -363,13 +369,14 @@ def main():
             "vx_px_per_s", "vy_px_per_s", "pred_lead_x", "pred_lead_y",
             "tracking_mode", "frame_latency_ms", "within_60fps_budget"
         ])
-
         frame_idx = 0
         while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
-
+            if camera is not None:
+                frame = camera.grabFrame()
+            elif camera is None and file_path is not None:
+                ret, frame = cap.read()
+                if not ret:
+                    break
             start_time = time.perf_counter()
             active_tracks = pipeline.process_frame(frame)
             latency_ms = (time.perf_counter() - start_time) * 1000.0
@@ -430,7 +437,7 @@ def main():
                     round(latency_ms, 2), within_budget
                 ])
 
-            # Bottom HUD Bar 
+            # Bottom HUD Bar
             budget_status = "60Hz OK" if within_budget else "OVER BUDGET"
             hud = (
                 f"60FPS Sim | T: {sim_time_sec:05.2f}s (Frame {frame_idx:04d}) | "
@@ -448,12 +455,16 @@ def main():
             wait_ms = max(1, int(round(FRAME_BUDGET_MS - latency_ms)))
             if cv2.waitKey(wait_ms) & 0xFF == ord('q'):
                 break
-
-    cap.release()
+    if camera is not None:
+        camera.close()
+    else:
+        cap.release()
     out_video.release()
     cv2.destroyAllWindows()
     print(f"Done! Processed {frame_idx} frames ({frame_idx / SIM_FPS:.2f} seconds at 60 FPS).")
     print(f"Saved 60 FPS video to '{output_video_path}' and hardware telemetry to '{output_csv_path}'.")
 
+
 if __name__ == "__main__":
-    main()
+    from trackerCamera import WebCam
+    main(camera=WebCam(target_res=(640, 480), target_fps=SIM_FPS))
