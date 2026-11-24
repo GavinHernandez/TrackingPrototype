@@ -1,0 +1,12 @@
+Prototype/venv/
+# Virtual environments
+.venv/
+venv/
+Prototype/venv/
+
+# Large media, outputs, and model weights
+*.mp4
+*.avi
+*.csv
+*.pt
+__pycache__/

@@ -128,7 +128,8 @@ class UnifiedPrototypePipeline:
         if self.use_yolo:
             from ultralytics import YOLO
             print("Loading YOLO model...")
-            self.yolo = YOLO(yolo_weights)
+            self.yolo = YOLO(yolo_weights, task='detect')
+            self.yolo.to('cuda')
 
         if TRACK_PEOPLE:
             self.target_classes = [0, 32, 39, 41, 67]
@@ -395,9 +396,7 @@ def main():
     output_csv_path = "tracker_results_60fps.csv"
 
     print("Opening live webcam (Camera 0)...")
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-    if not cap.isOpened():
-        cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         print("ERROR: Could not open webcam (Camera 0). Check if another app is using it.")
